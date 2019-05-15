@@ -26,22 +26,8 @@ namespace Brady.XmlWrite
             this.Emission = emission;
             this.Heatrate = heatRate;
         }
-        public void XmlWrite()
-        {
-            //Console.WriteLine("------------ xml total output ---------");
-            //Console.WriteLine(OffShore.OffshoreTotalGeneration());
-            //Console.WriteLine(Onshore.OnshoreTotalGeneration());
-            //Console.WriteLine(Gas.GasTotalGeneration());
-            //Console.WriteLine(Coal.CoalTotalGeneration());
-
-            //Console.WriteLine("------------ By date ------------");
-            //foreach(var e in Emission.HighestEmissionByDate())
-            //{
-            //    Console.WriteLine(e.Date +"- " + e.TotalEmissionsDaily + e.Name);
-            //}
-
-            //Console.WriteLine("-------------- Heat rate------------");
-            //Console.WriteLine(Heatrate.ActualHeatRates());
+        public void XmlWrite(string file)
+        {        
 
             /* Start xml writing */
 
@@ -85,7 +71,7 @@ namespace Brady.XmlWrite
              );
 
             //Console.WriteLine(xmlDoc);            
-            xmlDoc.Save(@"C:\Asp.Net_project\XmlReadWrite\XmlReadWrite\GenerationOutput.xml");
+            xmlDoc.Save(file);
         }
     }
 }

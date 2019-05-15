@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,18 +17,18 @@ namespace Brady
 
         public ParseXmlReferenceData(){}
 
-        public void ReadXml()
-        {
-            try
+        public void ReadXml(string file)
+        {          
+            if (File.Exists(file))
             {
-                this.xReference = XDocument.Load("C:\\Asp.Net_project\\XmlReadWrite\\XmlReadWrite\\ReferenceData.xml");
+               this.xReference = XDocument.Load(file);
+               this.ReadValueFactor();
+               this.ReadEmissionsFactor();
             }
-            catch(Exception e)
+            else
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("File not found");
             }
-            this.ReadValueFactor();
-            this.ReadEmissionsFactor();
         }
      
         public  void ReadValueFactor()

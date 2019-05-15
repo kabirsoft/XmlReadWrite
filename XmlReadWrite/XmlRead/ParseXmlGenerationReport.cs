@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,16 +12,16 @@ namespace Brady.XmlRead
     {
         public XDocument xReport;
 
-        public XDocument XmlRead()
-        {
-
-         try{ 
-               this.xReport = XDocument.Load("C:\\Asp.Net_project\\XmlReadWrite\\XmlReadWrite\\GenerationReport.xml");
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.Message);                
-            }
+        public XDocument XmlRead(string file)
+        {        
+           if (File.Exists(file))
+           {
+              this.xReport = XDocument.Load(file);
+           }
+           else
+           {
+                Console.WriteLine("File not found");                
+           }
             return xReport;
         }
     }
