@@ -20,9 +20,10 @@ namespace XmlReadWrite
             System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("en-US");
             System.Threading.Thread.CurrentThread.CurrentCulture = ci;
             
-            string file_xml_generation = Directory.GetCurrentDirectory() + "\\..\\..\\GenerationReport.xml";
-            string file_xml_reference = Directory.GetCurrentDirectory() + "\\..\\..\\ReferenceData.xml";
+            string file_xml_generation = ConfigurationManager.AppSettings["GenerationReport"];
+            string file_xml_reference = ConfigurationManager.AppSettings["ReferenceData"];
             string file_xml_write = ConfigurationManager.AppSettings["outputXml"];
+          
             
 
             ParseXmlReferenceData refData = new ParseXmlReferenceData();

@@ -27,7 +27,8 @@ namespace XmlReadWrite
             }
             else
             {
-                Console.WriteLine("File not found");
+                Console.WriteLine("ReferenceData.xml file not found");
+                System.Environment.Exit(1);
             }
         }
      

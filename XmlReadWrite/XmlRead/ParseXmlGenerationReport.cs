@@ -13,15 +13,17 @@ namespace XmlReadWrite.XmlRead
         public XDocument xReport;
 
         public XDocument XmlRead(string file)
-        {        
+        {  
+            
            if (File.Exists(file))
            {
               this.xReport = XDocument.Load(file);
            }
            else
            {
-                Console.WriteLine("File not found");                
-           }
+                Console.WriteLine("GenerationReport.xml file not found");
+                System.Environment.Exit(1);
+            }
             return xReport;
         }
     }

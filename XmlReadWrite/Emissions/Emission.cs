@@ -22,8 +22,7 @@ namespace XmlReadWrite.Emissions
             {
                 //Console.WriteLine("------------"+ key.Key  +"---------------");
                 foreach (var gas in key.Value)
-                {
-                    
+                {                    
                     var EmissionsDaily = gas.Energy * gas.EmissionsRating * EmissionsFactor.Medium;
                     EmissionByDateList.Add(new EmissionsByDate(gas.Date, EmissionsDaily, gas.Name));
                     //Console.WriteLine(gas.Date + "-" + EmissionsDaily + "-" + gas.Name);
