@@ -1,51 +1,66 @@
-﻿using Brady.Models;
-using Brady.ViewModel;
+﻿using XmlReadWrite.Models;
+using XmlReadWrite.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Brady.Emissions
+namespace XmlReadWrite.Emissions
 {
    public class Emission
     {
 
-        public List<EmissionsByDate> emissionByDateList = new List<EmissionsByDate>();
-        public Emission(){}
+        public List<EmissionsByDate> EmissionByDateList = new List<EmissionsByDate>();
+        public List<EmissionsByDate> HighestEmissionByDateList = new List<EmissionsByDate>();
 
-        public void EmissionsGasDaily(List<Gas> gasList)
+        public Emission(){}
+        public void EmissionsGasDaily(Dictionary<int, List<Gas>> gasList)
         {
-            foreach (var gas in gasList)
+            //Console.WriteLine("------------- Gas --------------");
+            foreach (var key in gasList)
             {
-                var EmissionsDaily = gas.Energy * gas.EmissionsRating * EmissionsFactor.Medium;
-                emissionByDateList.Add(new EmissionsByDate(gas.Date, EmissionsDaily, gas.Name));
-                //Console.WriteLine(gas.Date + "-" + EmissionsDaily + "-" + gas.Name);
+                //Console.WriteLine("------------"+ key.Key  +"---------------");
+                foreach (var gas in key.Value)
+                {
+                    
+                    var EmissionsDaily = gas.Energy * gas.EmissionsRating * EmissionsFactor.Medium;
+                    EmissionByDateList.Add(new EmissionsByDate(gas.Date, EmissionsDaily, gas.Name));
+                    //Console.WriteLine(gas.Date + "-" + EmissionsDaily + "-" + gas.Name);
+                }
             }
         }
-        public void EmissionsCoalDaily(List<Coal> coalList)
+        public void EmissionsCoalDaily(Dictionary<int, List<Coal>> coalList)
         {
-            foreach (var coal in coalList)
+            //Console.WriteLine("------------------- coal --------------");
+            foreach (var key in coalList)
             {
-                var EmissionsDaily = coal.Energy * coal.EmissionsRating * EmissionsFactor.High;
-                emissionByDateList.Add(new EmissionsByDate(coal.Date, EmissionsDaily, coal.Name));
-                //Console.WriteLine(coal.Date + "-" + EmissionsDaily + "-" + coal.Name);
+                //Console.WriteLine("------------" + key.Key + "---------------");
+                foreach (var coal in key.Value)
+                {
+                    var EmissionsDaily = coal.Energy * coal.EmissionsRating * EmissionsFactor.High;
+                    EmissionByDateList.Add(new EmissionsByDate(coal.Date, EmissionsDaily, coal.Name));
+                    //Console.WriteLine(coal.Date + "-" + EmissionsDaily + "-" + coal.Name);
+                }
             }
         }
         public List<EmissionsByDate> HighestEmissionByDate()
         {
-            var query = (from list1 in emissionByDateList
-                         join list2 in emissionByDateList on list1.Date equals list2.Date
-                         where (list1.TotalEmissionsDaily > list2.TotalEmissionsDaily)
-                         select list1
-                     ).OrderBy(x => x.Date);
-
+            var query = EmissionByDateList.GroupBy(i=>i.Date)
+              .Select(g => new
+              {
+                  Date = g.Key,
+                  MaxEmissionsDaily = g.Max(x => x.TotalEmissionsDaily)                  
+              }).OrderBy(x => x.Date);
             //Console.WriteLine("------- Highest by date -------");
-            //foreach (var q in query)
-            //{
-            //    Console.WriteLine(q.Date + " - " + q.TotalEmissionsDaily + " - " + q.Name);
-            //}
-            return query.ToList();
+            string name = "";
+            foreach (var q in query)
+            {
+                name =EmissionByDateList.Where(x => x.TotalEmissionsDaily.Equals(q.MaxEmissionsDaily)).Select(n => n.Name).First().ToString();
+                //Console.WriteLine(q.Date + " - " + q.MaxEmissionsDaily + "-" + name);
+                HighestEmissionByDateList.Add(new EmissionsByDate(q.Date, q.MaxEmissionsDaily, name));
+            }
+            return HighestEmissionByDateList;
         }
 
     }

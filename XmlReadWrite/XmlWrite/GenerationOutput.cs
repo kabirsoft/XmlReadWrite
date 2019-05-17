@@ -1,4 +1,4 @@
-﻿using Brady.Emissions;
+﻿using XmlReadWrite.Emissions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Brady.XmlWrite
+namespace XmlReadWrite.XmlWrite
 {
     public class GenerationOutput
     {
@@ -27,10 +27,9 @@ namespace Brady.XmlWrite
             this.Heatrate = heatRate;
         }
         public void XmlWrite(string file)
-        {        
+        {
 
             /* Start xml writing */
-
             XDocument xmlDoc = new XDocument(
                 new XDeclaration("1.0", "utf-8", "true"),
                 new XElement("GenerationOutput",
@@ -42,14 +41,17 @@ namespace Brady.XmlWrite
                           new XElement("Generator",
                               new XElement("Name", "Wind[Onshore]"),
                               new XElement("Total", Onshore.OnshoreTotalGeneration())
+                          ),                          
+                             from el in Gas.GasTotalGeneration()
+                             select new XElement("Generator",
+                                    new XElement("Name", "Gas["+el.Key+"]"),
+                                    new XElement("Total", el.Value)
+                                
                           ),
-                          new XElement("Generator",
-                              new XElement("Name", "Gas[1]"),
-                              new XElement("Total", Gas.GasTotalGeneration())
-                          ),
-                          new XElement("Generator",
-                              new XElement("Name", "Coal[1]"),
-                              new XElement("Total", Coal.CoalTotalGeneration())
+                            from el in Coal.CoalTotalGeneration()
+                            select new XElement("Generator",
+                              new XElement("Name", "Coal["+ el.Key +"]"),
+                              new XElement("Total", el.Value)
                           )
                      ),
                      new XElement("MaxEmissionGenerators",
@@ -62,9 +64,10 @@ namespace Brady.XmlWrite
                         )//end day
 
                      ),//end MaxEmissionGenerators
-                     new XElement("ActualHeatRates",
-                        new XElement("Name", "Coal"),
-                        new XElement("HeatRate", Heatrate.ActualHeatRates())
+                     from el in Heatrate.ActualHeatRates()
+                     select new XElement("ActualHeatRates",
+                        new XElement("Name", "Coal["+ el.Key +"]"),
+                        new XElement("HeatRate", el.Value)
                      )
 
                  )//end GenerationOutput

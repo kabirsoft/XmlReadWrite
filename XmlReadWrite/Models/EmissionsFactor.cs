@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Brady.Models
+namespace XmlReadWrite.Models
 {
     public static class EmissionsFactor
     {

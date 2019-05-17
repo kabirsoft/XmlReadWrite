@@ -1,6 +1,6 @@
-﻿using Brady.Emissions;
-using Brady.XmlRead;
-using Brady.XmlWrite;
+﻿using XmlReadWrite.Emissions;
+using XmlReadWrite.XmlRead;
+using XmlReadWrite.XmlWrite;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace Brady
+namespace XmlReadWrite
 {
     class Program
     {
@@ -22,7 +22,7 @@ namespace Brady
             
             string file_xml_generation = Directory.GetCurrentDirectory() + "\\..\\..\\GenerationReport.xml";
             string file_xml_reference = Directory.GetCurrentDirectory() + "\\..\\..\\ReferenceData.xml";
-            string file_xml_write = ConfigurationSettings.AppSettings["outputXml"];
+            string file_xml_write = ConfigurationManager.AppSettings["outputXml"];
             
 
             ParseXmlReferenceData refData = new ParseXmlReferenceData();
@@ -38,15 +38,18 @@ namespace Brady
             List<WindOnshore> onshorList = onshore.ReadXmlOnshore();
 
             XmlGas gas = new XmlGas(xReport);
-            List<Gas> gasList = gas.ReadXmlGas();
+            Dictionary<int, List<Gas>> gasList = gas.ReadXmlGas();
+            //gas.GasTotalGeneration();
 
             XmlCoal coal = new XmlCoal(xReport);
-            List<Coal> coalList = coal.ReadXmlCoal();
+            Dictionary<int, List<Coal>> coalList = coal.ReadXmlCoal();
+            //coal.CoalTotalGeneration();
 
             Emission emission = new Emission();
             emission.EmissionsGasDaily(gasList);
             emission.EmissionsCoalDaily(coalList);
             //emission.HighestEmissionByDate();
+            
 
             HeatRate ht = new HeatRate(coalList);
             //ht.ActualHeatRates();

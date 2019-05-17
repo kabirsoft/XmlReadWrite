@@ -1,4 +1,4 @@
-﻿using Brady.Models;
+﻿using XmlReadWrite.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Brady
+namespace XmlReadWrite
 {
     public class XmlCoal
     {
@@ -15,14 +15,16 @@ namespace Brady
         public CultureInfo ci;
         public ParseXmlReferenceData RefData;
 
-        public List<Coal> coalList = new List<Coal>();
+        public List<Coal> coalList;
+        public Dictionary<int, double> dictTotalGenerationValue = new Dictionary<int, double>();
+        public Dictionary<int, List<Coal>> dictCoalList = new Dictionary<int, List<Coal>>();
 
         public XmlCoal(XDocument _xReport)
         {
             this.xReport = _xReport;          
         }
 
-        public List<Coal> ReadXmlCoal()
+        public Dictionary<int, List<Coal>> ReadXmlCoal()
         {
             var resultCoal = xReport.Descendants("CoalGenerator")
                    .Select(e => e.Descendants("Day"))
@@ -35,32 +37,39 @@ namespace Brady
                                 TotalHeatInput = Convert.ToDouble(el.Element("TotalHeatInput").Value, ci),
                                 ActualNetGeneration = Convert.ToDouble(el.Element("ActualNetGeneration").Value, ci),
                                 EmissionsRating = Convert.ToDouble(el.Element("EmissionsRating").Value, ci)
-                            }).First(); ;
+                            }).ToList();
 
-            //Coal.TotalHeatInput = coal_TAC.TotalHeatInput;
-            //Coal.ActualNetGeneration = coal_TAC.ActualNetGeneration;
-            //Coal.EmissionsRating = coal_TAC.EmissionsRating;
-
-            foreach (var item in resultCoal[0])
+            int m = 1;
+            for (int i = 0; i < resultCoal.Count(); i++)
             {
-                DateTime date = Convert.ToDateTime(item.Element("Date").Value);
-                double energy = Convert.ToDouble(item.Element("Energy").Value, ci);
-                double price = Convert.ToDouble(item.Element("Price").Value, ci);
-                coalList.Add(new Coal(date, energy, price, coal_TAC.TotalHeatInput, coal_TAC.ActualNetGeneration, coal_TAC.EmissionsRating));
-                //Console.WriteLine(date + "-" + energy + "-" + price + "-heat :" + coal_TAC.TotalHeatInput + "-net:" + coal_TAC.ActualNetGeneration + "-" + coal_TAC.EmissionsRating);
+                coalList = new List<Coal>();
+                double totalGenerationValue = 0;
+                foreach (var item in resultCoal[i].ToList())
+                {
+                    DateTime date = Convert.ToDateTime(item.Element("Date").Value);
+                    double energy = Convert.ToDouble(item.Element("Energy").Value, ci);
+                    double price = Convert.ToDouble(item.Element("Price").Value, ci);
+                    coalList.Add(new Coal(date, energy, price, coal_TAC[i].TotalHeatInput, coal_TAC[i].ActualNetGeneration, coal_TAC[i].EmissionsRating));
+                    //Console.WriteLine(date + "-" + energy + "-" + price + "-heat :" + coal_TAC.TotalHeatInput + "-net:" + coal_TAC.ActualNetGeneration + "-" + coal_TAC.EmissionsRating);
+                    
+                    totalGenerationValue = totalGenerationValue + (energy * price * ValueFactor.Medium);
+                }
+                dictTotalGenerationValue.Add(m, totalGenerationValue);
+                dictCoalList.Add(m, coalList);
+                m++;
             }
-            return coalList;
+            return dictCoalList;
         }
 
-        public double CoalTotalGeneration()
-        {            
-            double totalGenerationValue = 0.0;
-            foreach (var item in coalList)
-            {
-                totalGenerationValue = totalGenerationValue + (item.Energy * item.Price * ValueFactor.Medium);
-            }
-            //Console.WriteLine("Coal: " + totalGenerationValue);
-            return totalGenerationValue;
+        public Dictionary<int, double> CoalTotalGeneration()
+        {
+            //foreach (var item in dictTotalGenerationValue)
+            //{
+            //    Console.WriteLine("Coal Key: " + item.Key + " Total: " + item.Value  );
+            //}
+
+
+            return dictTotalGenerationValue;
         }
     }
 }

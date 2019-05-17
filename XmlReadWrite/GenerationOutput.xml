@@ -14,8 +14,16 @@
       <Total>8512.25460552</Total>
     </Generator>
     <Generator>
+      <Name>Gas[2]</Name>
+      <Total>13.224</Total>
+    </Generator>
+    <Generator>
       <Name>Coal[1]</Name>
       <Total>5341.7165266320008</Total>
+    </Generator>
+    <Generator>
+      <Name>Coal[2]</Name>
+      <Total>5.9856</Total>
     </Generator>
   </Totals>
   <MaxEmissionGenerators>
@@ -36,7 +44,11 @@
     </Day>
   </MaxEmissionGenerators>
   <ActualHeatRates>
-    <Name>Coal</Name>
+    <Name>Coal[1]</Name>
     <HeatRate>1</HeatRate>
+  </ActualHeatRates>
+  <ActualHeatRates>
+    <Name>Coal[2]</Name>
+    <HeatRate>0.5</HeatRate>
   </ActualHeatRates>
 </GenerationOutput>

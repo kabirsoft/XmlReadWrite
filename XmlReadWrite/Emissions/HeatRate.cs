@@ -4,21 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Brady.Emissions
+namespace XmlReadWrite.Emissions
 {
     public class HeatRate
     {
-        public List<Coal> coalList = new List<Coal>();
-        public HeatRate(List<Coal> _coalList)
+        public Dictionary<int, List<Coal>> coalList = new Dictionary<int, List<Coal>>();
+        public Dictionary<int, double> dictHeatRate = new Dictionary<int, double>();
+        public HeatRate(Dictionary<int, List<Coal>> _coalList)
         {
             this.coalList = _coalList;
         }
 
-        public double ActualHeatRates()
-        {
-            var clList = coalList.First();           
-            double actual_heat_rate = clList.TotalHeatInput / clList.ActualNetGeneration;            
-            return actual_heat_rate;
+        public Dictionary<int, double> ActualHeatRates()
+        {                      
+            double heatRate=0;
+            double TotalHeatInput=0;
+            double ActualNetGeneration = 0;
+            int m = 1;
+            foreach (var key in coalList)
+            {
+                //Console.WriteLine("----------- heatrate ----");
+                 TotalHeatInput = key.Value.Select(x => x.TotalHeatInput).First();
+                 ActualNetGeneration = key.Value.Select(x => x.ActualNetGeneration).First();
+                heatRate = (TotalHeatInput / ActualNetGeneration);
+                dictHeatRate.Add(m++, heatRate);               
+            }
+            return dictHeatRate;
         }
     }
 }
