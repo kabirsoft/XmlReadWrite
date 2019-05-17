@@ -76,12 +76,12 @@
         </Day>
         <Day>
           <Date>2017-01-02T00:00:00+00:00</Date>
-          <Energy>11935.975</Energy>
+          <Energy>600.975</Energy>
           <Price>16.556</Price>
         </Day>
         <Day>
           <Date>2017-01-03T00:00:00+00:00</Date>
-          <Energy>640.325</Energy>
+          <Energy>240.325</Energy>
           <Price>17.551</Price>
         </Day>
       </Generation>
@@ -120,7 +120,7 @@
         </Day>
         <Day>
           <Date>2017-01-02T00:00:00+00:00</Date>
-          <Energy>8.611</Energy>
+          <Energy>348.611</Energy>
           <Price>11.815</Price>
         </Day>
         <Day>

@@ -20,17 +20,17 @@
   </Totals>
   <MaxEmissionGenerators>
     <Day>
-      <Name>Coal</Name>
+      <Name>Coal[1]</Name>
       <Date>2017-01-01T01:00:00+01:00</Date>
       <Emission>137.175004008</Emission>
     </Day>
     <Day>
-      <Name>Coal</Name>
+      <Name>Coal[1]</Name>
       <Date>2017-01-02T01:00:00+01:00</Date>
       <Emission>136.440767624</Emission>
     </Day>
     <Day>
-      <Name>Gas</Name>
+      <Name>Gas[1]</Name>
       <Date>2017-01-03T01:00:00+01:00</Date>
       <Emission>5.1323807</Emission>
     </Day>

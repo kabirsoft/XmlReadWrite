@@ -24,7 +24,7 @@ namespace XmlReadWrite.Emissions
                 foreach (var gas in key.Value)
                 {                    
                     var EmissionsDaily = gas.Energy * gas.EmissionsRating * EmissionsFactor.Medium;
-                    EmissionByDateList.Add(new EmissionsByDate(gas.Date, EmissionsDaily, gas.Name));
+                    EmissionByDateList.Add(new EmissionsByDate(gas.Date, EmissionsDaily, gas.Name + "[" + key.Key + "]"));
                     //Console.WriteLine(gas.Date + "-" + EmissionsDaily + "-" + gas.Name);
                 }
             }
@@ -37,8 +37,9 @@ namespace XmlReadWrite.Emissions
                 //Console.WriteLine("------------" + key.Key + "---------------");
                 foreach (var coal in key.Value)
                 {
+                    //Console.WriteLine(coal.Name + "[" + key.Key + "]");
                     var EmissionsDaily = coal.Energy * coal.EmissionsRating * EmissionsFactor.High;
-                    EmissionByDateList.Add(new EmissionsByDate(coal.Date, EmissionsDaily, coal.Name));
+                    EmissionByDateList.Add(new EmissionsByDate(coal.Date, EmissionsDaily, (coal.Name + "[" + key.Key + "]")));
                     //Console.WriteLine(coal.Date + "-" + EmissionsDaily + "-" + coal.Name);
                 }
             }
