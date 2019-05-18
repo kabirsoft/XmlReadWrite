@@ -11,10 +11,10 @@ namespace XmlReadWrite
 {
     public class XmlOnshore
     {
-        public XDocument xReport;
-        public ParseXmlReferenceData RefData;
         public CultureInfo ci;
-        public List<WindOnshore> onshorList = new List<WindOnshore>();
+        private XDocument xReport; 
+        private List<WindOnshore> onshorList = new List<WindOnshore>();
+        private double totalGenerationValue;
 
         public XmlOnshore(XDocument _xReport)
         {
@@ -26,24 +26,20 @@ namespace XmlReadWrite
             var resultWind = xReport.Descendants("WindGenerator")
                     .Select(e => e.Descendants("Day"))
                     .ToList();
+
+            totalGenerationValue = 0;
             foreach (var item in resultWind[1])
             {
                 var date = Convert.ToDateTime(item.Element("Date").Value);
                 double energy = Convert.ToDouble(item.Element("Energy").Value, ci);
                 double price = Convert.ToDouble(item.Element("Price").Value, ci);
+                totalGenerationValue = totalGenerationValue + (energy * price * ValueFactor.High);
                 onshorList.Add(new WindOnshore(date, energy, price));
-                //Console.WriteLine(date + "-" + energy + price);
             }
             return onshorList;
         }
         public double OnshoreTotalGeneration()
-        {            
-            double totalGenerationValue = 0.0;
-            foreach (var item in onshorList)
-            {
-                totalGenerationValue = totalGenerationValue + (item.Energy * item.Price * ValueFactor.High);
-            }
-            //Console.WriteLine("Onshore: " + totalGenerationValue);
+        {          
             return totalGenerationValue;
         }
     }

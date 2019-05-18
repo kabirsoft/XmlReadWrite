@@ -22,8 +22,7 @@ namespace XmlReadWrite
             
             string file_xml_generation = ConfigurationManager.AppSettings["GenerationReport"];
             string file_xml_reference = ConfigurationManager.AppSettings["ReferenceData"];
-            string file_xml_write = ConfigurationManager.AppSettings["outputXml"];
-          
+            string file_xml_write = ConfigurationManager.AppSettings["outputXml"];          
             
 
             ParseXmlReferenceData refData = new ParseXmlReferenceData();

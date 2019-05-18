@@ -8,16 +8,15 @@ namespace XmlReadWrite
 {
     public class Coal
     {
-        public DateTime Date { get; set; }
-        public double Energy { get; set; }
-        public double Price { get; set; }        
-        public  double TotalHeatInput { get; set; }
-        public  double ActualNetGeneration { get; set; }
-        public  double EmissionsRating { get; set; }
+        public DateTime Date;
+        public double Energy;
+        public double Price;
+        public double TotalHeatInput;
+        public double ActualNetGeneration;
+        public double EmissionsRating;
 
         public readonly string Name = "Coal";
-
-        public Coal() { }
+       
         public Coal(DateTime date, double energy, double price, double total, double actual, double emi)
         {
             this.Date = date;

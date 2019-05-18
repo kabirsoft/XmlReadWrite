@@ -152,8 +152,8 @@
           <Price>11.815</Price>
         </Day>
       </Generation>
-      <TotalHeatInput>11.815</TotalHeatInput>
-      <ActualNetGeneration>11.815</ActualNetGeneration>
+      <TotalHeatInput>10</TotalHeatInput>
+      <ActualNetGeneration>20</ActualNetGeneration>
       <EmissionsRating>0.482</EmissionsRating>
     </CoalGenerator>
 	<CoalGenerator>

@@ -12,7 +12,7 @@ namespace XmlReadWrite
 {
     public class ParseXmlReferenceData
     {
-        public XDocument xReference;
+        private XDocument xReference;
         public CultureInfo ci;
 
         public ParseXmlReferenceData(){}
@@ -34,7 +34,6 @@ namespace XmlReadWrite
      
         public  void ReadValueFactor()
         {
-            //var values = this.xReference.Descendants("ValueFactor").ToList();
             var values = (from el in xReference.Descendants("ValueFactor")
                           select new
                           {
@@ -51,8 +50,6 @@ namespace XmlReadWrite
 
         public void ReadEmissionsFactor()
         {
-            //EmissionsFactor
-            //var EmissionsFactor = xReference.Descendants("EmissionsFactor").ToList();
             var values = (from el in xReference.Descendants("EmissionsFactor")
                                select new
                                {
@@ -64,7 +61,6 @@ namespace XmlReadWrite
             EmissionsFactor.High = values.High;
             EmissionsFactor.Medium = values.Medium;
             EmissionsFactor.Low = values.Low;
-            //Console.WriteLine(EmissionsFactor.High + "-" + EmissionsFactor.Medium + "-" + EmissionsFactor.Low);
         }
         
     }

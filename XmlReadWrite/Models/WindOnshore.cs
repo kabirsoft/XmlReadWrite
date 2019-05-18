@@ -8,9 +8,9 @@ namespace XmlReadWrite
 {
     public class WindOnshore
     {
-        public DateTime Date { get; set; }
-        public double Energy { get; set; }
-        public double Price { get; set; }
+        public DateTime Date;
+        public double Energy;
+        public double Price;
         public readonly string Location = "Onshore";
         public readonly string Name = "Wind";
 

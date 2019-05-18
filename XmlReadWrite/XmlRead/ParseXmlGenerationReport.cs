@@ -10,11 +10,10 @@ namespace XmlReadWrite.XmlRead
 {
     public class ParseXmlGenerationReport
     {
-        public XDocument xReport;
+        private XDocument xReport;
 
         public XDocument XmlRead(string file)
-        {  
-            
+        {   
            if (File.Exists(file))
            {
               this.xReport = XDocument.Load(file);

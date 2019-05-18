@@ -12,15 +12,11 @@ namespace XmlReadWrite
 {
     public class XmlGas
     {
-        public XDocument xReport;
-        public ParseXmlReferenceData RefData;
         public CultureInfo ci;
-
-        public List<Gas> gaslist;      
-        public Dictionary<int, double> dictTotalGenerationValue = new Dictionary<int, double>();
-        public Dictionary<int, List<Gas>> dictGasList = new Dictionary<int, List<Gas>>();
-
-
+        private XDocument xReport;
+        private List<Gas> gaslist;      
+        private Dictionary<int, double> dictTotalGenerationValue = new Dictionary<int, double>();
+        private Dictionary<int, List<Gas>> dictGasList = new Dictionary<int, List<Gas>>();
 
         public XmlGas(XDocument _xReport)
         {
@@ -47,28 +43,18 @@ namespace XmlReadWrite
                    DateTime date = Convert.ToDateTime(item.Element("Date").Value);
                    double energy = Convert.ToDouble(item.Element("Energy").Value, ci);
                    double price = Convert.ToDouble(item.Element("Price").Value, ci);
-                    //Console.WriteLine(date + "-" + energy + "-" + price + " Emi: " + EmissionRating);
-                    //Console.WriteLine(energy + "*" + price + "*" + ValueFactor.Medium);
                     gaslist.Add(new Gas(date, energy, price, EmissionRating));
                     totalGenerationValue = totalGenerationValue + (energy * price * ValueFactor.Medium);
-                }              
-               
-                //Console.WriteLine(totalGenerationValue);
+                }
+
                 dictTotalGenerationValue.Add(m, totalGenerationValue);
                 dictGasList.Add(m, gaslist);
                 m++;
-
             }
-
             return dictGasList;
         }
-
         public Dictionary<int, double> GasTotalGeneration()
-        {            
-            //foreach (int key in dictTotalGenerationValue.Keys)
-            //{
-            //    Console.WriteLine("Key: " + key + " Total: " + dictTotalGenerationValue[key]);
-            //}
+        {   
             return dictTotalGenerationValue;          
         }
 

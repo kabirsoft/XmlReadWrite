@@ -11,13 +11,11 @@ namespace XmlReadWrite
 {
     public class XmlCoal
     {
-        public XDocument xReport;
         public CultureInfo ci;
-        public ParseXmlReferenceData RefData;
-
-        public List<Coal> coalList;
-        public Dictionary<int, double> dictTotalGenerationValue = new Dictionary<int, double>();
-        public Dictionary<int, List<Coal>> dictCoalList = new Dictionary<int, List<Coal>>();
+        private XDocument xReport;        
+        private List<Coal> coalList;
+        private Dictionary<int, double> dictTotalGenerationValue = new Dictionary<int, double>();
+        private Dictionary<int, List<Coal>> dictCoalList = new Dictionary<int, List<Coal>>();
 
         public XmlCoal(XDocument _xReport)
         {
@@ -29,7 +27,6 @@ namespace XmlReadWrite
             var resultCoal = xReport.Descendants("CoalGenerator")
                    .Select(e => e.Descendants("Day"))
                    .ToList();
-
 
             var coal_TAC = (from el in xReport.Descendants("CoalGenerator")
                             select new
@@ -49,9 +46,7 @@ namespace XmlReadWrite
                     DateTime date = Convert.ToDateTime(item.Element("Date").Value);
                     double energy = Convert.ToDouble(item.Element("Energy").Value, ci);
                     double price = Convert.ToDouble(item.Element("Price").Value, ci);
-                    coalList.Add(new Coal(date, energy, price, coal_TAC[i].TotalHeatInput, coal_TAC[i].ActualNetGeneration, coal_TAC[i].EmissionsRating));
-                    //Console.WriteLine(date + "-" + energy + "-" + price + "-heat :" + coal_TAC.TotalHeatInput + "-net:" + coal_TAC.ActualNetGeneration + "-" + coal_TAC.EmissionsRating);
-                    
+                    coalList.Add(new Coal(date, energy, price, coal_TAC[i].TotalHeatInput, coal_TAC[i].ActualNetGeneration, coal_TAC[i].EmissionsRating));                    
                     totalGenerationValue = totalGenerationValue + (energy * price * ValueFactor.Medium);
                 }
                 dictTotalGenerationValue.Add(m, totalGenerationValue);
@@ -60,15 +55,8 @@ namespace XmlReadWrite
             }
             return dictCoalList;
         }
-
         public Dictionary<int, double> CoalTotalGeneration()
         {
-            //foreach (var item in dictTotalGenerationValue)
-            //{
-            //    Console.WriteLine("Coal Key: " + item.Key + " Total: " + item.Value  );
-            //}
-
-
             return dictTotalGenerationValue;
         }
     }
