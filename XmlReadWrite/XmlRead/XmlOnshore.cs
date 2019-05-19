@@ -21,7 +21,7 @@ namespace XmlReadWrite
             this.xReport = _xReport;           
         }
         
-        public List<WindOnshore>  ReadXmlOnshore()
+        public List<WindOnshore>  Read()
         {
             var resultWind = xReport.Descendants("WindGenerator")
                     .Select(e => e.Descendants("Day"))

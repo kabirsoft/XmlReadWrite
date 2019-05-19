@@ -19,10 +19,10 @@ namespace XmlReadWrite
 
         public XmlCoal(XDocument _xReport)
         {
-            this.xReport = _xReport;          
+            this.xReport = _xReport;            
         }
 
-        public Dictionary<int, List<Coal>> ReadXmlCoal()
+        public Dictionary<int, List<Coal>> Read()
         {
             var resultCoal = xReport.Descendants("CoalGenerator")
                    .Select(e => e.Descendants("Day"))

@@ -1,0 +1,27 @@
+1. ParseXmlReferenceData  -> Model->ValueFactor.cs, EmissionFactor.cs
+   
+2. ParseXmlGenerationReport 
+xReport = xmlGeneration.Read(file_path); //Return xmlobj. Later use this obj to class(no 3. to 6.) for manupulation data
+
+3. XmlOffshore(xReport); -> Model->Offshore.cs
+
+4. new XmlOnshore(xReport) -> Model->onshore.cs
+
+5. XmlGas(xReport);        -> Model->gas.cs
+   gasList = gas.Read();
+   
+6. new XmlCoal(xReport);   -> Model->coal.cs
+   coalList = coal.Read();
+  
+7. new Emission(gasList, coalList); -> Model ->EmissionsByDate.cs //Keep datewise total emission
+   //get HighestEmissionByDate
+ 
+8. new HeatRate(coalList); //Get heatrate
+
+9. GenerationOutput outputXml = new GenerationOutput(offShore, onshore, gas, coal, emission, ht); //Use obj from no. 3 to 8. 
+   outputXml.XmlWrite(filepath);
+   
+Purpose: This program will parse two xml file (GenerationReport.xml and ReferenceData.xml), process data and save data in new xml file(GenerationOutput.xml).
+Program assuming GenerationReport.xml and ReferenceData.xml files are already exists in the folder.
+
+Note: All file paths are defined in app.config.

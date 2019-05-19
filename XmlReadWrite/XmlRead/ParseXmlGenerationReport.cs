@@ -12,7 +12,9 @@ namespace XmlReadWrite.XmlRead
     {
         private XDocument xReport;
 
-        public XDocument XmlRead(string file)
+        public ParseXmlGenerationReport()
+        {}
+        public XDocument Read(string file)
         {   
            if (File.Exists(file))
            {

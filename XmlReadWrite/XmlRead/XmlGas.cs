@@ -20,9 +20,9 @@ namespace XmlReadWrite
 
         public XmlGas(XDocument _xReport)
         {
-            this.xReport = _xReport;           
+            this.xReport = _xReport;            
         }
-        public Dictionary<int, List<Gas>> ReadXmlGas()
+        public Dictionary<int, List<Gas>> Read()
         {
             var resultGas = xReport.Descendants("GasGenerator")
                     .Select(e => e.Descendants("Day"))

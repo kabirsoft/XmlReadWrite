@@ -15,9 +15,12 @@ namespace XmlReadWrite
         private XDocument xReference;
         public CultureInfo ci;
 
-        public ParseXmlReferenceData(){}
+        public ParseXmlReferenceData(string file)
+        {
+            this.Read(file);
+        }
 
-        public void ReadXml(string file)
+        public void Read(string file)
         {          
             if (File.Exists(file))
             {

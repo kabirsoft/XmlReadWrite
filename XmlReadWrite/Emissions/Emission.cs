@@ -10,12 +10,20 @@ namespace XmlReadWrite.Emissions
 {
    public class Emission
     {
-
         private List<EmissionsByDate> EmissionByDateList = new List<EmissionsByDate>();
         private List<EmissionsByDate> HighestEmissionByDateList = new List<EmissionsByDate>();
+        private Dictionary<int, List<Gas>> gasList = new Dictionary<int, List<Gas>>();
+        private Dictionary<int, List<Coal>> coalList = new Dictionary<int, List<Coal>>();
 
-        public Emission(){}
-        public void EmissionsGasDaily(Dictionary<int, List<Gas>> gasList)
+
+        public Emission(Dictionary<int, List<Gas>> g, Dictionary<int, List<Coal>> c)
+        {
+            this.gasList = g;
+            this.coalList = c;
+            this.EmissionsGasDaily();
+            this.EmissionsCoalDaily();
+        }
+        public void EmissionsGasDaily()
         {            
             foreach (var key in gasList)
             {
@@ -26,7 +34,7 @@ namespace XmlReadWrite.Emissions
                 }
             }
         }
-        public void EmissionsCoalDaily(Dictionary<int, List<Coal>> coalList)
+        public void EmissionsCoalDaily()
         {
             foreach (var key in coalList)
             {
